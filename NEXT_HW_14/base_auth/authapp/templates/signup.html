@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %} 가입 {% endblock %}
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'registration/login.css' %}" />
+{% endblock %}
+{% block content %}
+<form method="POST">
+  {% csrf_token %}
+  <div class="posts_box">
+    {% if form.errors %}
+    <ul>
+      {% for field, error_list in form.errors.items %}
+      {% for error in error_list %}
+      <li>{{ error }}</li>
+      {% endfor %}
+      {% endfor %}
+    </ul>
+    {% endif %}
+    {{ form }}
+  </div>
+  <div class="registration-box">
+    <button id="post-button">회원가입</button>
+  </div>
+</form>
+{% endblock %}

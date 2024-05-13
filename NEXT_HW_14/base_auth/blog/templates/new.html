@@ -1,0 +1,14 @@
+{% extends 'base.html' %} {% block css %} {% load static %}
+<meta charset="UTF-8" />
+<link rel="stylesheet" type="text/css" href="{% static 'new.css' %}" />
+{% endblock %} {% block title %} New! {% endblock %} {% block content %}
+<div class="new-post_container">
+  <form method="POST" action="" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="text" placeholder="제목을 입력하세요!" name="title" />
+    <textarea placeholder="내용을 입력하세요!" name="content"></textarea>
+    <input type="file" name="image" placeholder="사진 올리기"/>
+    <input id="new-post_btn" type="submit" value="작성하기" />
+  </form>
+</div>
+{% endblock %}

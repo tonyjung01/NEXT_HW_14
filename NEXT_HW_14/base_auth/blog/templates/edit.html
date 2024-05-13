@@ -1,0 +1,25 @@
+{% extends 'base.html' %} {% block title %} Edit!{% endblock %} {% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'edit.css' %}" />
+{% endblock %} {% block content %}
+<div class="edit-post_container">
+  <form method="POST" action="" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input
+      type="text"
+      value="{{post.title}}"
+      name="title"
+      placeholder="수정할 제목!"
+    />
+    <textarea name="content" placeholder="수정할 내용!">
+{{post.content}}</textarea
+    >
+    <input type="file" name="image" placeholder="사진 변경하기" />
+    <input id="edit-post_btn" type="submit" value="수정하기" />
+  </form>
+  {% if post.image_url %}
+  <div class="detail_title">기존 사진</div>
+  <img src="{{post.image_url}}" alt="image" />
+  {% endif %}
+</div>
+{% endblock %}

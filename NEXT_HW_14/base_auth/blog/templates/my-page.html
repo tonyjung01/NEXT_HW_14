@@ -1,0 +1,33 @@
+{% extends 'base.html' %} {% block title %} MyPage!{% endblock %} {% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'detail.css' %}" />
+{% endblock %} {% block content %}
+<div class="detail-post_container">
+    <div class="detail_title">{{owner.username}}'s Page</div>
+    
+    <div class="detail_content">
+        <div class="detail_title">Posts</div>
+        {% for post in owner.posts.all %}
+            <div>
+                <a href="{% url 'detail' post.pk %}">{{post.title}}</a>
+            </div>
+        {% endfor %}
+
+        <div class="detail_title">Subscriptions</div>
+        <div>
+            {% for subscription in owner.subscriptions.all %}
+            <div class="detail_content">
+                <a href="{% url 'my-page' subscription.owner.pk %}">{{subscription.owner.username}}</a>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if request.user.pk != owner.pk and not is_subscribed %}
+        <form action="{% url 'subscribe' owner.pk %}" method="POST">
+            {% csrf_token %}
+            <button type="submit">구독하기</button>
+        </form>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

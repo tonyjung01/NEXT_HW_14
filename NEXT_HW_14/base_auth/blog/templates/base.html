@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="{% static 'favicon.png' %}" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ceviche+One&family=Inter:wght@900&family=Jua&family=Koulen&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" type="text/css" href="{% static 'base.css' %}" />
+    {% block css %} {% endblock css %}
+    <title>Project</title>
+  </head>
+
+  <body>
+    <nav id="navbar">
+      <div class="navbar__logo">
+        <a href="{% url 'home' %}">NEXT-LIKELION</a>
+      </div>
+      <ul class="navbar__menu">
+        <li class="navbar__menu__item">
+          <a href="{% url 'new' %}">New</a>
+        </li>
+        <li class="navbar__menu__item">
+          <a href="{% url 'home' %}">Home</a>
+        </li>
+        {% if user.is_authenticated %}
+        <li class="navbar__menu__item">
+          <a href="{% url 'logout' %}">로그아웃</a>
+        </li>
+        <li class="navbar__menu__item">
+          <a href="{% url 'my-page' user.pk %}">마이페이지</a>
+        </li>
+        {% else %}
+        <li class="navbar__menu__item">
+          <a href="{% url 'login' %}">로그인</a>
+        </li>
+        <li class="navbar__menu__item">
+          <a href="{% url 'signup' %}">회원가입</a>
+        </li>
+        {% endif %}
+        
+      </ul>
+    </nav>
+    <div class="title">{% block title %} {% endblock title %}</div>
+    <div class="container">{% block content %} {% endblock content %}</div>
+  </body>
+</html>

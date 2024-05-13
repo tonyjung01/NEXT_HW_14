@@ -1,0 +1,40 @@
+{% extends 'base.html' %} {% block title %} Detail!{% endblock %} {% block css%}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'detail.css' %}" />
+{% endblock %} {% block content %}
+<div class="detail-post_container">
+  <div class="detail_title">제목: {{post.title}}</div>
+  <div>
+    last viewed: {{post.last_viewed_datetime}} , by:
+    {{post.last_viewed_user.username}}
+  </div>
+  <div class="detail_content">내용: {{post.content}}</div>
+  <div class="detail-post_btn">
+    <a href="{% url 'home' %}">홈 화면</a>
+    <a href="{% url 'edit' post.pk %}">수정하기</a>
+    <a href="{% url 'delete' post.pk %}">삭제하기</a>
+    {% if post.creator != request.user %}
+    <a href="{% url 'my-page' post.creator.pk %}"
+      >작성자: {{post.creator.username}}</a
+    >
+    {% endif %}
+  </div>
+  <form action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="text" name="content" />
+    <input type="file" name="image" accept="image/*" />
+    <button type="submit">댓글 작성</button>
+  </form>
+  {% for comment in post.comments.all %}
+  <li>
+    <span>{{comment.content}}</span>
+    {% if comment.image_url %}
+      <img src="{{ comment.image_url }}" alt="Comment Image" />
+      {% endif %}
+    <a href="{% url 'delete_comment' post.pk  %}">삭제</a>
+  </li>
+  {% endfor %} {% if post.image_url %}
+  <img src="{{post.image_url}}" alt="image" />
+  {% endif %}
+</div>
+{% endblock %}
